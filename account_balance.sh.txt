@@ -1,0 +1,56 @@
+#!/bin/bash
+
+# Set the initial amount of cash available in the dispenser
+total_cash=1000
+
+# Function to display the menu and handle user choice
+display_menu() {
+  echo "==== Cash Dispenser ===="
+  echo "1. Withdraw cash"
+  echo "2. Check available balance"
+  echo "3. Exit"
+}
+
+# Function to withdraw cash
+withdraw_cash() {
+  echo "Enter the amount to withdraw:"
+  read amount
+
+  if [[ $amount -le 0 ]]; then
+    echo "Invalid amount. Please enter a positive number."
+  elif [[ $amount -gt $total_cash ]]; then
+    echo "Insufficient funds. Available balance: $total_cash"
+  else
+    total_cash=$((total_cash - amount))
+    echo "Dispensing $amount. Remaining balance: $total_cash"
+  fi
+}
+
+# Function to check available balance
+check_balance() {
+  echo "Available balance: $total_cash"
+}
+
+# Main program loop
+while true; do
+  display_menu
+  read choice
+
+  case $choice in
+    1)
+      withdraw_cash
+      ;;
+    2)
+      check_balance
+      ;;
+    3)
+      echo "Thank you for using the cash dispenser. Goodbye!"
+      exit 0
+      ;;
+    *)
+      echo "Invalid choice. Please select a valid option (1-3)."
+      ;;
+  esac
+
+  echo # Empty line for better readability
+done
